@@ -7,6 +7,6 @@
 - this project is uploaded on github
 - this project is deployed on surge
   
-# Live link : https://abc-news-server.vercel.app/
+# Live link : https://devilish-news.surge.sh/
 
 # Github link : https://github.com/Arifice/Car-doctor-local-storage

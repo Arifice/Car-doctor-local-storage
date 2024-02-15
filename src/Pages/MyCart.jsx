@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const MyCart = () => {
-    const {user}=useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const { data: cartItems = [], refetch } = useQuery({
         queryKey: ['cartItems'],
         queryFn: async () => {
@@ -14,7 +14,7 @@ const MyCart = () => {
         }
 
     })
-    const myItems=cartItems.filter(item=>item?.userEmail===user?.email);
+    const myItems = cartItems.filter(item => item?.userEmail === user?.email);
     const handleDelete = (id) => {
         console.log({ id });
         deleteCart(id);
@@ -57,9 +57,9 @@ const MyCart = () => {
                     <tbody>
                         {
                             myItems.map((item, idx) => <tr key={idx}>
-                                <th>
+                                <td>
                                     {idx + 1}
-                                </th>
+                                </td>
                                 <td>
                                     <img className="h-20 w-32 rounded-lg" src={item.img} alt="Avatar Tailwind CSS Component" />
                                 </td>
@@ -70,12 +70,14 @@ const MyCart = () => {
                                     {item.userEmail}
                                 </td>
                                 <td className="text-justify">{item.description.slice(0, 200)}</td>
-                                <th>
-                                    {item?.status ? <span className="text-green-500">{item.status}</span> : <button onClick={()=>handleConfirm(item.service_id)} className="btn btn-secondary ">Confirm</button>}
-                                </th>
-                                <th>
+                                <td>
+                                    {
+                                        item?.status ? <span className="text-green-500">{item.status}</span> : <button onClick={() => handleConfirm(item.service_id)} className="btn btn-secondary ">Confirm</button>
+                                    }
+                                </td>
+                                <td>
                                     <button onClick={() => handleDelete(item.service_id)} className="btn btn-warning btn-circle ">X</button>
-                                </th>
+                                </td>
                             </tr>)
                         }
                     </tbody>
