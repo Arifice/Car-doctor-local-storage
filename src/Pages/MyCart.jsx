@@ -9,7 +9,7 @@ const MyCart = () => {
     const { data: cartItems = [], refetch } = useQuery({
         queryKey: ['cartItems'],
         queryFn: async () => {
-            const data = await getCartData();
+            const data = await getCartData(user?.email);
             return data;
         }
 
@@ -17,25 +17,52 @@ const MyCart = () => {
     const myItems = cartItems.filter(item => item?.userEmail === user?.email);
     const handleDelete = (id) => {
         console.log({ id });
-        deleteCart(id);
-        refetch();
         Swal.fire({
-            icon: 'success',
-            title: 'Yes.....',
-            text: `You have successfully deleted  this item`,
-            timer: 1000,
-        })
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteCart(id,user?.email);
+                refetch();
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success",
+                    timer:1000,
+                });
+            }
+        });
+
     }
+
     const handleConfirm = (id) => {
         console.log({ id });
-        updateCart(id);
-        refetch();
         Swal.fire({
-            icon: 'success',
-            title: 'Yes.....',
-            text: `You have successfully confirmed  this item`,
-            timer: 1000,
-        })
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Confirm it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                updateCart(id,user?.email);
+                refetch();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Yes.....',
+                    text: `You have successfully confirmed  this item`,
+                    timer: 1000,
+                })
+            }
+        });
+
     }
     return (
         <div>

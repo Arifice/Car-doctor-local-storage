@@ -4,11 +4,11 @@ import { AuthContext } from "../Provider/AuthProvider";
 
 const ServiceCard = ({ service }) => {
     const {user}=useContext(AuthContext);
-    const { title, img, price, description} = service
-    const handleCart=(service)=>{
+    const { title, img, price, description,service_id} = service
+    const handleCart=(id)=>{
         console.log({service});        
-        saveCartData(service,user?.email);
-        const cartitems=getCartData();
+        saveCartData(service,id,user?.email);
+        const cartitems=getCartData(user?.email);
         console.log({cartitems});  
            
     }
@@ -24,7 +24,7 @@ const ServiceCard = ({ service }) => {
                 <p className="text-justify">{description.slice(0,150)}</p>
                 <div className="card-actions flex justify-center">
                    {
-                    user ? <button onClick={()=>handleCart(service)} className="btn btn-warning">Buy Now</button>:undefined
+                    user ? <button onClick={()=>handleCart(service_id)} className="btn btn-warning">Buy Now</button>:undefined
                    }
                 </div>
             </div>

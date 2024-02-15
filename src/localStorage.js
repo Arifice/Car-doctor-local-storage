@@ -1,21 +1,21 @@
 import Swal from "sweetalert2";
-const getCartData=()=>{
-    const storedCartData=localStorage.getItem('cart');
+const getCartData=(email)=>{
+    const storedCartData=localStorage.getItem(`cartOf${email}`);
     if(storedCartData){
         return JSON.parse(storedCartData);
     }
     return [];
 }
-const saveCartData=(service,email)=>{    
-    const storedCartData=getCartData();
+const saveCartData=(service,id,email)=>{    
+    const storedCartData=getCartData(email);
     // const users=getUserData();
     // const loginUser=users.find(user=>user.email===email);
     
-    const isExist=storedCartData.find(cart=>cart?.userEmail===service.userEmail);
+    const isExist=storedCartData.find(cart=>cart?.service_id===id);
     if(!isExist){
         service.userEmail=email;
         storedCartData.push(service);
-        localStorage.setItem('cart',JSON.stringify(storedCartData));
+        localStorage.setItem(`cartOf${email}`,JSON.stringify(storedCartData));
         Swal.fire({
             icon: 'success',
             title: 'Yes.....',
@@ -32,19 +32,20 @@ const saveCartData=(service,email)=>{
           })
     }
 }
-const deleteCart=(id)=>{
-    const storedCartData=getCartData();
+const deleteCart=(id,email)=>{
+    const storedCartData=getCartData(email);
     const remainItems=storedCartData.filter(item=>item.service_id!==id);    
-    localStorage.setItem('cart',JSON.stringify(remainItems));
+    localStorage.setItem(`cartOf${email}`,JSON.stringify(remainItems));
 }
-const updateCart=(id)=>{
-    const storedCartData=getCartData();
+const updateCart=(id,email)=>{
+    const storedCartData=getCartData(email);
     const cartToUpdate=storedCartData.find(item=>item.service_id===id);
     const remainItems=storedCartData.filter(item=>item.service_id!==id);
+    console.log({remainItems});
     cartToUpdate.status='confirmed',
     remainItems.push(cartToUpdate);
-    localStorage.setItem('cart',JSON.stringify(remainItems));
-
+    console.log({remainItems});
+    localStorage.setItem(`cartOf${email}`,JSON.stringify(remainItems));
 }
 
 const getUserData=()=>{
