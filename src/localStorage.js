@@ -8,7 +8,10 @@ const getCartData=()=>{
 }
 const saveCartData=(service,email)=>{    
     const storedCartData=getCartData();
-    const isExist=storedCartData.find(cart=>cart.service_id===service.service_id);
+    // const users=getUserData();
+    // const loginUser=users.find(user=>user.email===email);
+    
+    const isExist=storedCartData.find(cart=>cart?.userEmail===service.userEmail);
     if(!isExist){
         service.userEmail=email;
         storedCartData.push(service);
